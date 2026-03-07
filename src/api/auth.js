@@ -1,7 +1,7 @@
 import axios  from "axios";
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://todo-mern-backend-obw2.onrender.com'
 })
 
 export const login = (email,password) => {
