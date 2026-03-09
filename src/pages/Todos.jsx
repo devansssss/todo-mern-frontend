@@ -50,7 +50,6 @@ export default function Todos() {
     navigate('/login')
   }
 
-  if (isLoading) return <p>Loading...</p>
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -58,13 +57,20 @@ export default function Todos() {
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">My Todos</h1>
-            <button onClick={Logout} className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg">
+            <button onClick={Logout}
+            className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
                 Logout
             </button>
             </div>
 
+            {isLoading && (
+                <div className="flex justify-center my-4">
+                <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+            )}
+
             {/* Form */}
-            <div className="flex gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -82,7 +88,8 @@ export default function Todos() {
             </select>
             <button
                 onClick={() => CreateTodo.mutate({ title, priority })}
-                className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold"
+                disabled = {CreateTodo.isPending}
+                className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 Create
             </button>
@@ -125,13 +132,15 @@ export default function Todos() {
                     <div className="flex gap-2">
                     <button
                         onClick={() => UpdateTodo.mutate({ id: todo._id, todo: { status: 'completed' } })}
-                        className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg text-sm"
+                        disabled = {UpdateTodo.isPending}
+                        className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         ✓
                     </button>
                     <button
                         onClick={() => DeleteTodo.mutate(todo._id)}
-                        className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg text-sm"
+                        disabled = {DeleteTodo.isPending}
+                        className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         ✕
                     </button>
@@ -162,13 +171,15 @@ export default function Todos() {
                     <div className="flex gap-2">
                     <button
                         onClick={() => UpdateTodo.mutate({ id: todo._id, todo: { status: 'pending' } })}
-                        className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded-lg text-sm"
+                        disabled = {UpdateTodo.isPending}
+                        className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         ↩
                     </button>
                     <button
                         onClick={() => DeleteTodo.mutate(todo._id)}
-                        className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg text-sm"
+                        disabled = {DeleteTodo.isPending}
+                        className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         ✕
                     </button>
